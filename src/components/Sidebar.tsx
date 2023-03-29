@@ -4,13 +4,22 @@ import {
   Launch,
   LightMode,
   Logout,
+  Menu,
   Person,
 } from "@mui/icons-material";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  useMediaQuery,
+} from "@mui/material";
 import React, { useContext } from "react";
 import { ThemeContext } from "./ThemeProvider";
 
 const Sidebar: React.FC = () => {
+  const media = useMediaQuery("(max-width:720px)");
+
   const { dark, setDark } = useContext(ThemeContext);
   const handleChange = () => {
     if (dark) {
@@ -35,7 +44,15 @@ const Sidebar: React.FC = () => {
       fill: "white !important",
     },
   };
-  return (
+  return media ? (
+    <div className="sticky top-0 flex items-center justify-between border-b-[1px] border-b-gray-500 bg-[#343541] p-2 text-gray-300">
+      <Menu />
+      <p>New chat</p>
+      <button>
+        <Add />
+      </button>
+    </div>
+  ) : (
     <div className="relative flex h-screen flex-col justify-between bg-[#202123] p-2 !text-white shadow-2xl md:fixed md:w-[260px] md:max-w-[260px]">
       <div>
         <button className="border-gray flex w-full flex-row items-center gap-3 rounded-md border-[1px] border-white/20 py-3 pl-2 text-[14px] transition-colors duration-[200] hover:bg-gray-500/10">
@@ -53,6 +70,7 @@ const Sidebar: React.FC = () => {
               label="Age"
               sx={styles}
               className="!text-white"
+              defaultValue={20}
             >
               <MenuItem value={10}>Ten</MenuItem>
               <MenuItem value={20}>Twenty</MenuItem>

@@ -1,5 +1,6 @@
 import {
   Add,
+  Close,
   DarkMode,
   Launch,
   LightMode,
@@ -13,11 +14,14 @@ import {
   MenuItem,
   Select,
   useMediaQuery,
+  SwipeableDrawer,
 } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import Drawers from "./Drawer";
 import { ThemeContext } from "./ThemeProvider";
 
 const Sidebar: React.FC = () => {
+  const [open, setOpen] = useState<boolean>(false);
   const media = useMediaQuery("(max-width:720px)");
 
   const { dark, setDark } = useContext(ThemeContext);
@@ -45,15 +49,33 @@ const Sidebar: React.FC = () => {
     },
   };
   return media ? (
-    <div className="sticky top-0 flex items-center justify-between border-b-[1px] border-b-gray-500 bg-[#343541] p-2 text-gray-300">
-      <Menu />
-      <p>New chat</p>
-      <button>
-        <Add />
-      </button>
-    </div>
+    <>
+      <div className="sticky top-0 flex items-center justify-between border-b-[1px] border-b-gray-500 bg-[#343541] p-2 text-gray-300">
+        <button onClick={() => setOpen(!open)} className="p-1">
+          <Menu />
+        </button>
+        <p>New chat</p>
+        <button>
+          <Add />
+        </button>
+      </div>
+
+      <SwipeableDrawer
+        anchor="left"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+      >
+        <div className="flex items-start gap-3">
+          <Drawers />
+          <button className="mt-2  !text-white" onClick={() => setOpen(false)}>
+            <Close />
+          </button>
+        </div>
+      </SwipeableDrawer>
+    </>
   ) : (
-    <div className="relative flex h-screen flex-col justify-between bg-[#202123] p-2 !text-white shadow-2xl md:fixed md:w-[260px] md:max-w-[260px]">
+    <div className="relative flex h-screen flex-col justify-between bg-[#202123] p-2 !text-white  md:fixed md:w-[260px] md:max-w-[260px]">
       <div>
         <button className="border-gray flex w-full flex-row items-center gap-3 rounded-md border-[1px] border-white/20 py-3 pl-2 text-[14px] transition-colors duration-[200] hover:bg-gray-500/10">
           <Add className="text-[17px]" />

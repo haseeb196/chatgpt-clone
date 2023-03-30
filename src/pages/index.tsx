@@ -2,10 +2,12 @@ import Chat from "@/components/Chat";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 import Sidebar from "@/components/Sidebar";
-import { type NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 
-const Home: NextPage = () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Home: NextPage = (datas: any) => {
+  console.log(datas);
   return (
     <>
       <Head>
@@ -24,3 +26,22 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const res = await fetch(
+    `https://api.openai.com/v1/models`,
+
+    {
+      method: "GET",
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
+    }
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const datas = await res.json();
+  return {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    props: { datas }, // will be passed to the page component as props
+  };
+};

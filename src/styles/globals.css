@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
+  box-shadow: none !important;
+
+  background-color: transparent !important;
+}

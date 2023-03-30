@@ -17,7 +17,9 @@ const Chat: React.FC = () => {
       <div className="flex w-full max-w-[780px] items-center sm:sticky sm:bottom-0 sm:mt-[45px] sm:border-t-[1px] sm:border-t-gray-500 sm:py-4 sm:px-4 md:absolute md:bottom-10 md:!px-4">
         <input
           type="text"
-          className="shadow-3xl h-[24px] w-full rounded-md bg-[#40414f] py-6 px-3  outline-none"
+          className={`shadow-3xl h-[24px] w-full rounded-md bg-[#40414f] py-6 px-3  outline-none ${
+            !dark ? "bg-gray-300" : "bg-[#40414f]"
+          }`}
         />
         <button className="-ml-9  rounded-md p-1 hover:bg-[#2b2a33]">
           <svg

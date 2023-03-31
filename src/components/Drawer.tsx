@@ -1,8 +1,18 @@
-import React from "react";
+import React, { type Dispatch } from "react";
 import { Add, Launch, Logout, Person } from "@mui/icons-material";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-
-const Drawers: React.FC = () => {
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  type SelectChangeEvent,
+} from "@mui/material";
+interface props {
+  sml: string[] | null;
+  model: string;
+  select: Dispatch<React.SetStateAction<string>>;
+}
+const Drawers: React.FC<props> = ({ model, select, sml }) => {
   const styles = {
     ".MuiOutlinedInput-notchedOutline": {
       borderColor: "gray",
@@ -18,6 +28,9 @@ const Drawers: React.FC = () => {
     ".MuiSvgIcon-root ": {
       fill: "white !important",
     },
+  };
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    select(event.target.value);
   };
   return (
     <div className="relative flex h-screen  !w-screen !max-w-[275px] flex-col  justify-between  bg-[#202123] p-2 !text-white shadow-2xl">
@@ -41,11 +54,17 @@ const Drawers: React.FC = () => {
               label="Age"
               sx={styles}
               className="!text-white"
-              defaultValue={20}
+              defaultValue={model}
+              value={model}
+              onChange={handleSelectChange}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {sml?.map((x: string, i: number) => {
+                return (
+                  <MenuItem key={i} value={x}>
+                    {x}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </div>

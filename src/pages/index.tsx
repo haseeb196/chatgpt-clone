@@ -1,13 +1,26 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+
 import Chat from "@/components/Chat";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 import Sidebar from "@/components/Sidebar";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Home: NextPage = (datas: any) => {
-  console.log(datas);
+const Home: NextPage = ({ datas }: any) => {
+  const [selectedModel, setSelectedModel] = useState<string>("gpt-3.5-turbo");
+  const [models, setModels] = useState<any[] | null>(null);
+  useEffect(() => {
+    const ids = datas?.data?.map((x: { id: string }) => x.id);
+    setModels(ids);
+  }, [datas?.data]);
+
   return (
     <>
       <Head>
@@ -17,7 +30,11 @@ const Home: NextPage = (datas: any) => {
       </Head>
       <main className="flex h-screen w-full sm:flex-col sm:overflow-y-hidden md:relative md:flex-row">
         <ThemeProvider>
-          <Sidebar />
+          <Sidebar
+            data={models}
+            models={selectedModel}
+            selected={setSelectedModel}
+          />
           <Chat />
         </ThemeProvider>
       </main>

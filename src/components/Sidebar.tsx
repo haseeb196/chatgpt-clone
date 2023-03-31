@@ -15,12 +15,17 @@ import {
   Select,
   useMediaQuery,
   SwipeableDrawer,
+  type SelectChangeEvent,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { type Dispatch, useContext, useState } from "react";
 import Drawers from "./Drawer";
 import { ThemeContext } from "./ThemeProvider";
-
-const Sidebar: React.FC = () => {
+interface props {
+  data: string[] | null;
+  models: string;
+  selected: Dispatch<React.SetStateAction<string>>;
+}
+const Sidebar: React.FC<props> = ({ data, models, selected }) => {
   const [open, setOpen] = useState<boolean>(false);
   const media = useMediaQuery("(max-width:720px)");
 
@@ -48,6 +53,9 @@ const Sidebar: React.FC = () => {
       fill: "white !important",
     },
   };
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    selected(event.target.value);
+  };
   return media ? (
     <>
       <div className="sticky top-0 flex items-center justify-between border-b-[1px] border-b-gray-500 bg-[#343541] p-2 text-gray-300">
@@ -67,7 +75,7 @@ const Sidebar: React.FC = () => {
         onOpen={() => setOpen(true)}
       >
         <div className="flex items-start gap-3">
-          <Drawers />
+          <Drawers model={models} select={selected} sml={data} />
           <button className="mt-2  !text-white" onClick={() => setOpen(false)}>
             <Close />
           </button>
@@ -92,11 +100,17 @@ const Sidebar: React.FC = () => {
               label="Age"
               sx={styles}
               className="!text-white"
-              defaultValue={20}
+              defaultValue={models}
+              value={models}
+              onChange={handleSelectChange}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {data?.map((x: string, i: number) => {
+                return (
+                  <MenuItem key={i} value={x}>
+                    {x}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </div>

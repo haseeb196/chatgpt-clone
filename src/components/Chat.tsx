@@ -1,8 +1,18 @@
-import React, { useContext } from "react";
+import React, {
+  type Dispatch,
+  type SetStateAction,
+  useContext,
+  type ChangeEvent,
+  type FormEvent,
+} from "react";
 import PreText from "./PreText";
 import { ThemeContext } from "./ThemeProvider";
-
-const Chat: React.FC = () => {
+interface props {
+  inputvalue: string;
+  getinput: Dispatch<SetStateAction<string>>;
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+}
+const Chat: React.FC<props> = ({ inputvalue, getinput, handleSubmit }) => {
   const { dark } = useContext(ThemeContext);
   return (
     <div
@@ -14,8 +24,15 @@ const Chat: React.FC = () => {
         <PreText />
       </div>
 
-      <div className="flex w-full max-w-[780px] items-center sm:sticky sm:bottom-0 sm:mt-[45px] sm:border-t-[1px] sm:border-t-gray-500 sm:py-4 sm:px-4 md:absolute md:bottom-10 md:!px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="flex w-full max-w-[780px] items-center sm:sticky sm:bottom-0 sm:mt-[45px] sm:border-t-[1px] sm:border-t-gray-500 sm:py-4 sm:px-4 md:absolute md:bottom-10 md:!px-4"
+      >
         <input
+          value={inputvalue}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            getinput(e.target.value)
+          }
           type="text"
           className={`shadow-3xl h-[24px] w-full rounded-md bg-[#40414f] py-6 px-3  outline-none ${
             !dark ? "bg-gray-300" : "bg-[#40414f]"
@@ -38,7 +55,7 @@ const Chat: React.FC = () => {
             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
           </svg>
         </button>
-      </div>
+      </form>
     </div>
   );
 };

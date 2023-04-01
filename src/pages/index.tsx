@@ -10,16 +10,30 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import Sidebar from "@/components/Sidebar";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Home: NextPage = ({ datas }: any) => {
+  const [input, setInput] = useState<string>("");
   const [selectedModel, setSelectedModel] = useState<string>("gpt-3.5-turbo");
   const [models, setModels] = useState<any[] | null>(null);
   useEffect(() => {
     const ids = datas?.data?.map((x: { id: string }) => x.id);
     setModels(ids);
   }, [datas?.data]);
+  const SubmitForm = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const requestOptions: RequestInit = {
+      method: "POST",
+      body: JSON.stringify({ text: input, model: selectedModel }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res: Response = await fetch("/api/msg", requestOptions);
+    const data = await res.json();
+    console.log(data);
+  };
 
   return (
     <>
@@ -35,7 +49,11 @@ const Home: NextPage = ({ datas }: any) => {
             models={selectedModel}
             selected={setSelectedModel}
           />
-          <Chat />
+          <Chat
+            inputvalue={input}
+            getinput={setInput}
+            handleSubmit={SubmitForm}
+          />
         </ThemeProvider>
       </main>
     </>

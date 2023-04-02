@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -31,7 +32,7 @@ const Home: NextPage = ({ datas }: any) => {
       },
     };
     const res: Response = await fetch("/api/msg", requestOptions);
-    const data = await res.json();
+    const data = res.json();
     console.log(data);
   };
 

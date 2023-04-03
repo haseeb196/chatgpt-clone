@@ -31,7 +31,7 @@ const Home: NextPage = ({ datas }: any) => {
         "Content-Type": "application/json",
       },
     };
-    const res: Response = await fetch("/api/msg", requestOptions);
+    const res: Response = await fetch("/api/Ask", requestOptions);
     const data = res.json();
     console.log(data);
   };

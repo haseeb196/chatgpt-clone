@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, {
   type Dispatch,
   type SetStateAction,
@@ -7,26 +10,100 @@ import React, {
 } from "react";
 import PreText from "./PreText";
 import { ThemeContext } from "./ThemeProvider";
+import Image from "next/image";
+import type { chatType } from "@/pages";
+
 interface props {
   inputvalue: string;
   getinput: Dispatch<SetStateAction<string>>;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  chat: chatType[];
 }
-const Chat: React.FC<props> = ({ inputvalue, getinput, handleSubmit }) => {
+const Chat: React.FC<props> = ({
+  inputvalue,
+  getinput,
+  handleSubmit,
+  chat,
+}) => {
   const { dark } = useContext(ThemeContext);
   return (
     <div
-      className={`h-screen w-full md:relative ${
+      className={`w-full overflow-y-scroll md:relative ${
         dark ? "bg-[#343541] text-white" : "bg-white text-black"
-      }  flex flex-col items-center justify-center md:ml-[260px]`}
+      }  flex flex-col items-center ${
+        chat.length === 0 ? "justify-center" : "justify-between"
+      }  md:ml-[260px]`}
     >
-      <div className="sm:w-full sm:overflow-y-scroll sm:py-8">
-        <PreText />
-      </div>
+      {" "}
+      <div className={`sm:overflow-y-scroll sm:py-8`}>
+        {chat.length === 0 ? (
+          <PreText />
+        ) : (
+          chat.map((x, i) => (
+            <div key={i} className="max-w-[750px]">
+              <div className="flex gap-4 py-7 px-2">
+                <div className="!max-h-[40px] !max-w-[40px]">
+                  <Image
+                    width={1920}
+                    height={1080}
+                    alt=""
+                    src={
+                      "https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg"
+                    }
+                  />
+                </div>
+                <p>{x.message}</p>
+              </div>
 
+              <div className="flex gap-4 bg-[#444654] py-7 px-2">
+                <div className="!max-h-[40px] !max-w-[40px]">
+                  <Image
+                    alt=""
+                    width={1920}
+                    height={1080}
+                    src={
+                      "https://uploads-ssl.webflow.com/621396eaae0610d2e24c450e/63d01548c5b3156b13a40e1f_ChatGPT-Feature-1200x900.png"
+                    }
+                  />
+                </div>
+                {x.response && (
+                  <div className="flex flex-col gap-6">
+                    {x.response.split("```").map((part, index) =>
+                      index % 2 !== 0 ? (
+                        <div
+                          key={index}
+                          className="leading-8"
+                          style={{
+                            display: "block",
+                            backgroundColor: "black",
+                            color: "white",
+
+                            fontFamily: "Courier New, Courier, monospace",
+                            padding: "10px",
+                          }}
+                        >
+                          {part.split("\n").map((x) => (
+                            <p key={x} className="py-[1px]">
+                              {x}
+                            </p>
+                          ))}
+                        </div>
+                      ) : (
+                        <span key={index}>{part}</span>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))
+        )}{" "}
+      </div>
       <form
         onSubmit={handleSubmit}
-        className="flex w-full max-w-[780px] items-center sm:sticky sm:bottom-0 sm:mt-[45px] sm:border-t-[1px] sm:border-t-gray-500 sm:py-4 sm:px-4 md:absolute md:bottom-10 md:!px-4"
+        className={`flex w-full max-w-[780px] items-center sm:sticky  sm:bottom-0 sm:mt-[45px] sm:border-t-[1px] sm:border-t-gray-500 sm:py-4 sm:px-4 ${
+          chat.length !== 0 ? "md:sticky" : "md:absolute"
+        } md:bottom-10 md:!px-4`}
       >
         <input
           value={inputvalue}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -12,9 +13,13 @@ import Sidebar from "@/components/Sidebar";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { type FormEvent, useEffect, useState } from "react";
-
+export type chatType = {
+  message: string | null;
+  response: string | null;
+};
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Home: NextPage = ({ datas }: any) => {
+  const [chat, setChat] = useState<chatType[]>([]);
   const [input, setInput] = useState<string>("");
   const [selectedModel, setSelectedModel] = useState<string>("gpt-3.5-turbo");
   const [models, setModels] = useState<any[] | null>(null);
@@ -24,16 +29,29 @@ const Home: NextPage = ({ datas }: any) => {
   }, [datas?.data]);
   const SubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setChat((prevState) => [...prevState, { message: input, response: null }]);
+
+    setInput("");
     const requestOptions: RequestInit = {
       method: "POST",
-      body: JSON.stringify({ text: input, model: selectedModel }),
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ model: selectedModel, text: input }),
     };
     const res: Response = await fetch("/api/Ask", requestOptions);
-    const data = res.json();
-    console.log(data);
+    const data = await res.json();
+    setChat((prevState) => {
+      const updatedChat = [...prevState];
+      const lastChatItem = updatedChat.pop();
+      if (lastChatItem) {
+        updatedChat.push({
+          message: lastChatItem.message,
+          response: data.message,
+        });
+      }
+      return updatedChat;
+    });
   };
 
   return (
@@ -54,6 +72,7 @@ const Home: NextPage = ({ datas }: any) => {
             inputvalue={input}
             getinput={setInput}
             handleSubmit={SubmitForm}
+            chat={chat}
           />
         </ThemeProvider>
       </main>

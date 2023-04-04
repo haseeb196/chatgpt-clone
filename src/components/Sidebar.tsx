@@ -20,12 +20,14 @@ import {
 import React, { type Dispatch, useContext, useState } from "react";
 import Drawers from "./Drawer";
 import { ThemeContext } from "./ThemeProvider";
+import type { chatType } from "@/pages";
 interface props {
   data: string[] | null;
   models: string;
   selected: Dispatch<React.SetStateAction<string>>;
+  reset: Dispatch<React.SetStateAction<chatType[]>>;
 }
-const Sidebar: React.FC<props> = ({ data, models, selected }) => {
+const Sidebar: React.FC<props> = ({ data, models, selected, reset }) => {
   const [open, setOpen] = useState<boolean>(false);
   const media = useMediaQuery("(max-width:720px)");
 
@@ -58,7 +60,7 @@ const Sidebar: React.FC<props> = ({ data, models, selected }) => {
   };
   return media ? (
     <>
-      <div className="sticky top-0 flex items-center justify-between border-b-[1px] border-b-gray-500 bg-[#343541] p-2 text-gray-300">
+      <div className="sticky  top-0 flex items-center justify-between border-b-[1px] border-b-gray-500 bg-[#343541] p-2 text-gray-300">
         <button onClick={() => setOpen(!open)} className="p-1">
           <Menu />
         </button>
@@ -75,7 +77,7 @@ const Sidebar: React.FC<props> = ({ data, models, selected }) => {
         onOpen={() => setOpen(true)}
       >
         <div className="flex items-start gap-3">
-          <Drawers model={models} select={selected} sml={data} />
+          <Drawers model={models} select={selected} sml={data} resets={reset} />
           <button className="mt-2  !text-white" onClick={() => setOpen(false)}>
             <Close />
           </button>
@@ -85,7 +87,10 @@ const Sidebar: React.FC<props> = ({ data, models, selected }) => {
   ) : (
     <div className="relative flex h-screen flex-col justify-between bg-[#202123] p-2 !text-white  md:fixed md:w-[260px] md:max-w-[260px]">
       <div>
-        <button className="border-gray flex w-full flex-row items-center gap-3 rounded-md border-[1px] border-white/20 py-3 pl-2 text-[14px] transition-colors duration-[200] hover:bg-gray-500/10">
+        <button
+          onClick={() => reset([])}
+          className="border-gray flex w-full flex-row items-center gap-3 rounded-md border-[1px] border-white/20 py-3 pl-2 text-[14px] transition-colors duration-[200] hover:bg-gray-500/10"
+        >
           <Add className="text-[17px]" />
           <p>New chat</p>
         </button>

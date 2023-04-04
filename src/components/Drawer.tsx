@@ -7,12 +7,14 @@ import {
   Select,
   type SelectChangeEvent,
 } from "@mui/material";
+import type { chatType } from "@/pages";
 interface props {
   sml: string[] | null;
   model: string;
   select: Dispatch<React.SetStateAction<string>>;
+  resets: Dispatch<React.SetStateAction<chatType[]>>;
 }
-const Drawers: React.FC<props> = ({ model, select, sml }) => {
+const Drawers: React.FC<props> = ({ model, select, sml, resets }) => {
   const styles = {
     ".MuiOutlinedInput-notchedOutline": {
       borderColor: "gray",
@@ -37,7 +39,10 @@ const Drawers: React.FC<props> = ({ model, select, sml }) => {
       <div>
         <div>
           {" "}
-          <button className="border-gray flex w-full flex-row items-center gap-3 rounded-md border-[1px] border-white/20 py-3 pl-2 text-[14px] transition-colors duration-[200] hover:bg-gray-500/10">
+          <button
+            onClick={() => resets([])}
+            className="border-gray flex w-full flex-row items-center gap-3 rounded-md border-[1px] border-white/20 py-3 pl-2 text-[14px] transition-colors duration-[200] hover:bg-gray-500/10"
+          >
             <Add className="text-[17px]" />
             <p>New chat</p>
           </button>

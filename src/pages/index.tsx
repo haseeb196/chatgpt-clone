@@ -67,6 +67,7 @@ const Home: NextPage = ({ datas }: any) => {
             data={models}
             models={selectedModel}
             selected={setSelectedModel}
+            reset={setChat}
           />
           <Chat
             inputvalue={input}

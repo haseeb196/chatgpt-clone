@@ -7,7 +7,7 @@ import React from "react";
 
 const PreText = () => {
   return (
-    <div className="flex flex-col gap-10 px-6 md:-mt-32">
+    <div className="flex flex-col gap-10 px-6 sm:pt-12 md:-mt-32">
       <div>
         <h1 className="text-center text-[36px] font-semibold">ChatGPT</h1>
       </div>

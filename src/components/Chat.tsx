@@ -34,7 +34,6 @@ const Chat: React.FC<props> = ({
         chat.length === 0 ? "justify-center" : "justify-between"
       }  md:ml-[260px]`}
     >
-      {" "}
       <div
         className={`w-full  ${
           chat.length === 0 && "flex justify-center sm:py-8"
@@ -71,13 +70,13 @@ const Chat: React.FC<props> = ({
                       }
                     />
                   </div>
-                  {x.response && (
+                  {x.response ? (
                     <div className="flex flex-col gap-6">
                       {x.response.split("```").map((part, index) =>
                         index % 2 !== 0 ? (
                           <div
                             key={index}
-                            className="leading-8"
+                            className="overflow-auto leading-8"
                             style={{
                               display: "block",
                               backgroundColor: "black",
@@ -97,6 +96,13 @@ const Chat: React.FC<props> = ({
                           <span key={index}>{part}</span>
                         )
                       )}
+                    </div>
+                  ) : (
+                    <div className="lds-ellipsis">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
                     </div>
                   )}
                 </div>

@@ -24,6 +24,9 @@ export const GetQuery = async ({ model, text }: data) => {
     body: JSON.stringify(datag),
   };
   const res = await fetch(url, options);
-  const data = await res.json();
-  return data.choices[0].message.content;
+  const datas = await res.json();
+
+  const message = await datas.choices[0].message.content;
+
+  return message;
 };

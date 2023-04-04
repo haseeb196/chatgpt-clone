@@ -29,6 +29,7 @@ const Home: NextPage = ({ datas }: any) => {
   }, [datas?.data]);
   const SubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (input === "") return;
     setChat((prevState) => [...prevState, { message: input, response: null }]);
 
     setInput("");

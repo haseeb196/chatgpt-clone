@@ -28,7 +28,7 @@ const Chat: React.FC<props> = ({
   const { dark } = useContext(ThemeContext);
   return (
     <div
-      className={`w-full overflow-y-scroll sm:min-h-screen md:relative ${
+      className={`w-full overflow-y-auto sm:min-h-screen md:relative ${
         dark ? "bg-[#343541] text-white" : "bg-white text-black"
       }  flex flex-col items-center ${
         chat.length === 0 ? "justify-center" : "justify-between"

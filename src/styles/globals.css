@@ -11,14 +11,14 @@
 .lds-ellipsis {
   display: inline-block;
   position: relative;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 .lds-ellipsis div {
   position: absolute;
   top: 10px;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #fff;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);

@@ -10,7 +10,7 @@ import Chat from "@/components/Chat";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 import Sidebar from "@/components/Sidebar";
-import type {GetStaticProps, NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { type FormEvent, useEffect, useState } from "react";
 export type chatType = {

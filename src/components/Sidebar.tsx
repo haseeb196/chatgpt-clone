@@ -65,7 +65,7 @@ const Sidebar: React.FC<props> = ({ data, models, selected, reset }) => {
           <Menu />
         </button>
         <p>New chat</p>
-        <button>
+        <button onClick={() => reset([])}>
           <Add />
         </button>
       </div>

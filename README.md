@@ -8,6 +8,7 @@ This project is a chatGPT-clone built using NextJS, Tailwind CSS, MUI & Typescri
 To run this project locally:
 
 - Clone the repository and install the dependencies.
+- Create a .env file & paste your OPENAI_API_KEY.
 - Start the client with npm run dev.
 - Open the application at http://localhost:3000.
 

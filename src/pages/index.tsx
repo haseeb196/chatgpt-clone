@@ -10,7 +10,7 @@ import Chat from "@/components/Chat";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 import Sidebar from "@/components/Sidebar";
-import type { GetServerSideProps, NextPage } from "next";
+import type {GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { type FormEvent, useEffect, useState } from "react";
 export type chatType = {
@@ -84,7 +84,7 @@ const Home: NextPage = ({ datas }: any) => {
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const res = await fetch(
     `https://api.openai.com/v1/models`,
 

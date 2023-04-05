@@ -1,4 +1,4 @@
-
+![chatGPT-clone](https://chatgpt-clon.vercel.app/chatgpt-pic.png)
 # chatGPT-Clone Project
 
 This project is a chatGPT-clone built using NextJS, Tailwind CSS, MUI & Typescript.
